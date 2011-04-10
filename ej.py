@@ -19,6 +19,8 @@ try:
 	my_file=open_file()
 	Line=my_file.read(Block_Size)
 	while Line:	
+		if len(Line)<Block_Size:
+			Line=Line[:-1]
 		BS=BlockSorting(Line)
 		BS.run()
 		Line=my_file.read(Block_Size)
