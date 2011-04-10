@@ -3,7 +3,7 @@ import os
 from BlockSorting import*
 from Exceptions import*
 N_ARGS = 2	
-Block_Size = 10
+Block_Size = 8
 POS_FILE_ARG= 1
 
 def open_file():
@@ -17,10 +17,11 @@ def open_file():
 	return fd
 try:
 	my_file=open_file()
-	Line=my_file.readline()#read(Block_Size)
-#	print Line
-	BS=BlockSorting(Line[:-1])
-	BS.run()
+	Line=my_file.read(Block_Size)
+	while Line:	
+		BS=BlockSorting(Line)
+		BS.run()
+		Line=my_file.read(Block_Size)
 	my_file.close()	
 
 except usage_error:

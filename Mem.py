@@ -12,9 +12,9 @@ class Mem():
 	def __len__(self):	
 		return len(self.__Mem)
 	def append(self,value):
-		self.__Mem.append(value)
-		if value<self.__min:
+		if (value<self.__min) or (len(self.__Mem)==0):
 			self.__min=value
+		self.__Mem.append(value)
 	def __find_min(self):
 		minor=self.__Mem[0]
 		for i in range(1,len(self.__Mem)):
