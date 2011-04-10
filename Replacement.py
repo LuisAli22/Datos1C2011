@@ -44,8 +44,6 @@ class Replacement(FileManagement):
 	def __Send_to_Partition(self,elem):
 		self.__Last_in_Partition=elem
 		self.__Actual_Part.write(str(elem)+NEW_LINE_CHAR)
-		print self.__Mem.get_mem()
-		print "Voy a sacar elem: ",elem
 		self.__Mem.remove(elem)
 		self.__cant_reg +=1
 		
