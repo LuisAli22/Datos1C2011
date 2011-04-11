@@ -16,4 +16,4 @@ class Move_to_front():
 			self.__Res.append(self.__Y.index(car))
 			self.__Y.remove(car)
 			self.__Y=aux_List + self.__Y
-		print"Resultado MTF: ",self.__Res
+		return self.__Res
