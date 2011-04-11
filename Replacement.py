@@ -15,7 +15,6 @@ class Replacement(FileManagement):
 		self.__cant_reg=0
 		self.__Mem=Mem(Col[:SIZE_MEM])
 		self.__Values=Col[SIZE_MEM:]
-		self.__repeated_value= False
 		
 	def __del__(self):
 		self.__Close()		
@@ -23,7 +22,7 @@ class Replacement(FileManagement):
 		self.__Actual_Part=Open_File(self.Get_path()+PREFIX_PART+str(self.__partition)+EXTENSION,"w")
 		self.__Last_in_Partition=0
 	def __Close(self):
-		self.Get_File_list()[self.Get_path()+PREFIX_PART+str(self.__partition)+EXTENSION]=self.__cant_reg
+		self.Get_File_list().append([self.__cant_reg,self.Get_path()+PREFIX_PART+str(self.__partition)+EXTENSION])
 		if not self.__Actual_Part.closed:
 			self.__Actual_Part.close()
 		self.__cant_reg=0
@@ -35,15 +34,14 @@ class Replacement(FileManagement):
 		self.__Close()
 		self.__partition+=1
 		self.__init_partition()
-		self.__Last_in_Partition=0
 
 	def __Send_to_Freezer(self,elem):
 		self.__Mem.remove(elem)
 		self.__Frozen_List.append(elem)
 	
 	def __Send_to_Partition(self,elem):
-		self.__Last_in_Partition=elem
-		self.__Actual_Part.write(str(elem)+NEW_LINE_CHAR)
+		self.__Last_in_Partition=elem[POS_VAL]
+		self.__Actual_Part.write(str(elem[POS_VAL])+COMA+str(elem[POS_IDX])+NEW_LINE_CHAR)
 		self.__Mem.remove(elem)
 		self.__cant_reg +=1
 		
@@ -70,7 +68,7 @@ class Replacement(FileManagement):
 
 	def __Send_elem(self,elem):
 		sended_to_Partition=False
-		if (self.__Last_in_Partition>elem):
+		if (self.__Last_in_Partition>elem[POS_VAL]):
 			self.__Send_to_Freezer(elem)
 			if (self.__All_Frozen()):
 				self.__unfreeze()
@@ -80,7 +78,7 @@ class Replacement(FileManagement):
 		return sended_to_Partition
 
 
-	def Replacement_Selection(self):
+	def run(self):
 		for key in self.__Values:
 			self.__Process_Mem(key)
 		self.__end_data()	

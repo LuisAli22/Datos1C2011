@@ -1,7 +1,8 @@
 import sys
 import os
-from BlockSorting import*
 from Exceptions import*
+from Compress import*
+
 N_ARGS = 2	
 Block_Size = 8
 POS_FILE_ARG= 1
@@ -21,8 +22,8 @@ try:
 	while Line:	
 		if len(Line)<Block_Size:
 			Line=Line[:-1]
-		BS=BlockSorting(Line)
-		BS.run()
+		Compress_file=Compress(Line)
+		Compress_file.run()
 		Line=my_file.read(Block_Size)
 	my_file.close()	
 

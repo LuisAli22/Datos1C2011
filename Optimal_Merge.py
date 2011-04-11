@@ -4,12 +4,13 @@ from FileManagement import*
 CANT_VIAS = 4
 POS_CANT_REG=0
 POS_FILE_PATH=1
+POS_FILE=2
 PREFIX="/Aux"
 
 class Merge(FileManagement):
 	def __init__(self,List,path):
 		FileManagement.__init__(self,List,path)
-		self.__res={}
+		self.__res=[]
 		self.__arch_num=0
 		self.__count=0
 		self.__init_File()
@@ -22,55 +23,57 @@ class Merge(FileManagement):
 	def __Get_Minor_Part(self):
 		for i in range(CANT_VIAS-1):
 			if(len(self.Get_File_list())>0):
-				path_file=min(self.Get_File_list(),key=self.Get_File_list().get)
-				Cant_Regs=self.Get_File_list().pop(path_file)
-				self.__res[path_file]=[Cant_Regs,Open_File(path_file, 'r')]
+				elem=find_min(self.Get_File_list())
+				path_file=elem[POS_FILE_PATH]
+				Cant_Regs=elem[POS_VAL]
+				self.Get_File_list().remove(elem)
+				self.__res.append([Cant_Regs,path_file,Open_File(path_file, 'r')])
 			else:
 				break
 	def __Close_and_Store_exit_file_as_Entry(self):
-		self.Get_File_list()[self.Get_path()+PREFIX+str(self.__arch_num)+EXTENSION]=self.__count
+		self.Get_File_list().append([self.__count,self.Get_path()+PREFIX+str(self.__arch_num)+EXTENSION])
 		self.__Actual_Part.close()
 
 	def __send_to_exit_file(self,Data):
 		self.__count=len(Data)
 		while(len(Data)>0):
-			num=min(Data)
-			Data.remove(num)
-			self.__Actual_Part.write(str(num)+NEW_LINE_CHAR)
+			elem=find_min(Data)
+			Data.remove(elem)
+			self.__Actual_Part.write(elem)
 		if (len(self.__res)==0):
 			self.__Close_and_Store_exit_file_as_Entry()
 
 	def __delete_completed_files_from_res(self,completed):
 		for elem in completed:
-			del self.__res[elem]
+			self.__res.remove(elem)
 
-	def __Close_and_remove_file_from_disk(self,fichero,path,completed=[]):
-		fichero.close()
-		os.remove(path)
-		completed.append(path)	
-	
+	def __Close_and_remove_file_from_disk(self,val,completed=[]):
+		val[POS_FILE].close()
+		os.remove(val[POS_FILE_PATH])
+		completed.append(val)
+			
 	def __Process_Entry_Files(self):
 		completed=[]
 		Data=[]
-		path_file=min(self.__res,key=self.__res.get)
-		Cant_Regs=self.__res.get(path_file)
-		reg_num=Cant_Regs[POS_CANT_REG]
-		for key,val in self.__res.iteritems():
-			Data+=[int(x) for x in val[POS_FILE_PATH].readlines(reg_num)]
-			val[POS_CANT_REG]-=reg_num
-			if val[POS_CANT_REG]==0:
-				self.__Close_and_remove_file_from_disk(val[POS_FILE_PATH],key,completed)						
+		elem=find_min(self.__res)
+		path_file=elem[POS_FILE_PATH]
+		reg_num=elem[POS_VAL]
+		for val in self.__res:
+			Data+=val[POS_FILE].readlines(reg_num)
+			val[POS_VAL]-=reg_num
+			if val[POS_VAL]==0:
+				self.__Close_and_remove_file_from_disk(val,completed)			
 		self.__delete_completed_files_from_res(completed)
 		return Data
 		
 	def __write_remaining_regs_to_exit_file(self):
-		path_file=min(self.__res,key=self.__res.get)
-		Cant_Regs=self.__res.pop(path_file)
-		List=Cant_Regs[POS_FILE_PATH].readlines()
+		elem=self.__res.pop()
+		path_file=elem[POS_FILE_PATH]
+		List=elem[POS_FILE].readlines()
 		self.__Actual_Part.writelines(List)
 		self.__count+=len(List)
 		self.__Close_and_Store_exit_file_as_Entry()
-		self.__Close_and_remove_file_from_disk(Cant_Regs[POS_FILE_PATH],path_file)
+		self.__Close_and_remove_file_from_disk(elem)
 	
 	def __Process_File(self):
 		while (len(self.__res)>0):
@@ -82,11 +85,11 @@ class Merge(FileManagement):
 				if len(self.Get_File_list())>1:
 					self.__init_File()		
 		
-	def Optimal_Merge(self):
+	def run(self):
 		while len(self.Get_File_list())>1:
 			self.__Get_Minor_Part()
 			self.__Process_File()
-		return self.Get_File_list().items()[0][0]
+		return self.Get_File_list()[0][POS_FILE_PATH]
 		
 		
 		
