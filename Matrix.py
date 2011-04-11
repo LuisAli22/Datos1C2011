@@ -18,7 +18,7 @@ class CMatrix():
 
 	def __Row_Val(self):
 		Values=[]
-		for Row_id in self.__Permutation_Array:#range(len(self.__Line)):
+		for Row_id in self.__Permutation_Array:
 			ret_val=0
 			i=0
 			for Col in reversed(range(len(self.__Line))):
@@ -28,11 +28,10 @@ class CMatrix():
 		return Values
 	def Get_Values(self):
 		return self.__Values
-	def Get_Permutation():
+	def Get_Permutation(self):
 		return self.__Permutation_Array
 	def Permutation_update(self,Permutation):
 		self.__Permutation_Array=Permutation[:]
-#	def Size(self):
-#		return len(self.__Line)
-#	def Col(self,Col_id):
-#		return [self[row_id,Col_id] for row_id in range(len(self.__Line))]
+
+	def Get_Col(self,Col_id):
+		return [self[row_id,Col_id] for row_id in self.__Permutation_Array]
