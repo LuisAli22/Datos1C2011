@@ -29,9 +29,9 @@ class BlockSorting():
 		Pos_Original=0
 		Permutation=[]
 		First_Val=str(Original[POS_VAL])+COMA+str(Original[POS_IDX])+NEW_LINE_CHAR
-		K=fileinput.input(Res_File)
-		if First_Val in K:
+		if First_Val in fileinput.input(Res_File):
 			self.__Matrix.Set_Init(int(fileinput.filelineno())-1)
+		fileinput.close()
 		self.__Get_Permutation(fichero,Permutation)
 		fichero.close()
 		self.__Matrix.Permutation_update(Permutation)

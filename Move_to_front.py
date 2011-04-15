@@ -13,7 +13,7 @@ class Move_to_front_Estructurate():
 		col=self.__Matrix.Get_Col(0)
 		self.__Y=list(set(col))
 		fichero=Open_File(path_file,"r")
-		fichero_exit=Open_File(os.getcwd()+"/lala.txt."+GROUP_NUMBER,"w+")
+		fichero_exit=Open_File(os.getcwd()+"/lala.txt."+GROUP_NUMBER,"a+")
 		reader = csv.reader(fichero)
 		for row in reader:
 			num=int(row[0])
@@ -26,4 +26,4 @@ class Move_to_front_Estructurate():
 		fichero_exit.close()
 		fichero.close()
 		os.remove(path_file)
-		print "Resultado final: ","%.20f"% self.__Estructurado.Get_res_number()	
+#		print "Resultado final: ","%.20f"% self.__Estructurado.Get_res_number()	
