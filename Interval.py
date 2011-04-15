@@ -21,7 +21,6 @@ class Interval():
 		Max_Quantity=self.__Levels.Get_Default_Value_in_Level(level_id)
 		while (res < Top):
 			prob=self.__Levels.Probability(num,level_id)
-#			print"num: ",num,"\tprob: ",prob,"\tL: ",self.__Long
 			res+=(prob*(self.__Long)) 	
 			self.__intermediate_values.append(res)	
 			num+=1
@@ -42,9 +41,9 @@ class Interval():
 				bottom,Top=self.__Get_new_extreme(Val,Level_id)
 				self.__intermediate_values=self.__intermediate_values[bottom:Top]
 		
-	def Emit_Value(self,Val,Level_id):	
+	def Emit_Value(self,Val,Level_id,fichero):	
 		self.__Load_Val(Level_id)
-#		print "I: ",self.__intermediate_values
+		fichero.write(str(self.__intermediate_values)+"\t"+str(Level_id)+"\n")
 		self.__Update_Interval_extreme(Val,Level_id)
 		self.__Levels.Emit_Value(Val)
 	def Is_in_Level(self,Level_id,num):

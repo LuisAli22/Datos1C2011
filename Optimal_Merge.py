@@ -49,7 +49,7 @@ class Merge(FileManagement):
 
 	def __Close_and_remove_file_from_disk(self,val,completed=[]):
 		val[POS_FILE].close()
-#		os.remove(val[POS_FILE_PATH])
+		os.remove(val[POS_FILE_PATH])
 		completed.append(val)
 			
 	def __Process_Entry_Files(self):

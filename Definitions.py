@@ -1,3 +1,4 @@
+import sys
 import math
 from Exceptions import*
 BASE=2
@@ -7,9 +8,13 @@ TAB="\t"
 COMA=","
 POS_IDX=1
 POS_VAL=0
+N_ARGS = 2	
+GROUP_NUMBER="02"
 
 def Open_File(filename,mode):
 	ret_val=0
+	if (len(sys.argv) != N_ARGS):
+		raise usage_error()
 	try:
 		ret_val=open(filename,mode)
 	except IOError :

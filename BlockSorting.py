@@ -1,5 +1,4 @@
 import csv
-from StringIO import StringIO
 from Replacement import* 
 from Optimal_Merge import*
 from Matrix import*
@@ -14,39 +13,28 @@ HOME='HOME'
 class BlockSorting():
 	filenumber=0
 	def __init__(self,Matrix):
-		self.__Matrix=Matrix#CMatrix(Line)
+		self.__Matrix=Matrix
 		self.__Partition_List=[]
 		self.__path = os.path.join(os.getenv(HOME),TEMP_FOLDER )
 		if not os.path.exists(self.__path):
 			os.makedirs(self.__path)
-	def __Get_value_from_line(self,line,permutation):
-		num=0
-		csv_file = StringIO(line)
-		reader = csv.reader(csv_file)
+	def __Get_Permutation(self,fichero,permutation):
+		reader = csv.reader(fichero)
 		for row in reader:
 			if (len(row)>0):
-				num=int(row[0])
 				permutation.append(int(row[1]))
-		return num
 		
 	def __Loc_file(self,Res_File,Original):
 		fichero=Open_File(Res_File,"r")
-		Loc_file_path=self.__path+PREFIX_NAME+str(self.__class__.filenumber)+EXTENSION
-		Loc_File=Open_File(Loc_file_path,"w")
-		self.__class__.filenumber+=1
 		Pos_Original=0
 		Permutation=[]
-		for line in fileinput.input(Res_File):
-			if line.find(str(Original)) >= 0:
-				Pos_Original=int(fileinput.filelineno())-1
-			num=self.__Get_value_from_line(line,Permutation)
-			Loc_File.write(encode(num))
-		Loc_File.write(NEW_LINE_CHAR+str(Pos_Original))	
+		First_Val=str(Original[POS_VAL])+COMA+str(Original[POS_IDX])+NEW_LINE_CHAR
+		K=fileinput.input(Res_File)
+		if First_Val in K:
+			self.__Matrix.Set_Init(int(fileinput.filelineno())-1)
+		self.__Get_Permutation(fichero,Permutation)
 		fichero.close()
-		Loc_File.close()
-		os.remove(Res_File)
 		self.__Matrix.Permutation_update(Permutation)
-		return Loc_file_path
 
 	def run(self):
 
@@ -56,4 +44,5 @@ class BlockSorting():
 		if (len(Res_File)==0):
 			My_Merge=Merge(self.__Partition_List,self.__path)
 			Res_File=My_Merge.run()	
-		return self.__Loc_file(Res_File,Values[0])
+		self.__Loc_file(Res_File,Values[0])
+		return Res_File
