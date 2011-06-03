@@ -2,5 +2,4 @@ ejecutar:
 
 $ python ej.py lala.txt
 
-(El resultado lo van a ver en el o los archivos que aparezcan
-en /home/Compress_Tmp)
+el resultado se crea en el archivo lala.txt.02 en la misma carpeta de codigo
