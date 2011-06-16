@@ -40,8 +40,8 @@ class Replacement(FileManagement):
 		self.__Frozen_List.append(elem)
 	
 	def __Send_to_Partition(self,elem):
-		self.__Last_in_Partition=elem[POS_VAL]
-		self.__Actual_Part.write(str(elem[POS_VAL])+COMA+str(elem[POS_IDX])+NEW_LINE_CHAR)
+		self.__Last_in_Partition=elem
+		self.__Actual_Part.write(str(elem)+NEW_LINE_CHAR)
 		self.__Mem.remove(elem)
 		self.__cant_reg +=1
 		
@@ -68,7 +68,7 @@ class Replacement(FileManagement):
 
 	def __Send_elem(self,elem):
 		sended_to_Partition=False
-		if (self.__Last_in_Partition>elem[POS_VAL]):
+		if (self.__Last_in_Partition>elem):
 			self.__Send_to_Freezer(elem)
 			if (self.__All_Frozen()):
 				self.__unfreeze()

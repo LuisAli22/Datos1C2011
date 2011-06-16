@@ -18,23 +18,16 @@ class BlockSorting():
 		self.__path = os.path.join(os.getenv(HOME),TEMP_FOLDER )
 		if not os.path.exists(self.__path):
 			os.makedirs(self.__path)
-	def __Get_Permutation(self,fichero,permutation):
-		reader = csv.reader(fichero)
-		for row in reader:
-			if (len(row)>0):
-				permutation.append(int(row[1]))
 		
 	def __Loc_file(self,Res_File,Original):
 		fichero=Open_File(Res_File,"r")
 		Pos_Original=0
 		Permutation=[]
-		First_Val=str(Original[POS_VAL])+COMA+str(Original[POS_IDX])+NEW_LINE_CHAR
+		First_Val=str(Original)+NEW_LINE_CHAR
 		if First_Val in fileinput.input(Res_File):
 			self.__Matrix.Set_Init(int(fileinput.filelineno())-1)
 		fileinput.close()
-		self.__Get_Permutation(fichero,Permutation)
 		fichero.close()
-		self.__Matrix.Permutation_update(Permutation)
 
 	def run(self):
 

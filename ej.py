@@ -4,19 +4,22 @@ from Exceptions import*
 from Compress import*
 from Definitions import*
 
-Block_Size = 8
+Block_Size = 10000
 POS_FILE_ARG= 1
 
 try:
-	my_file=Open_File(sys.argv[POS_FILE_ARG],"r")
+	name_file=sys.argv[POS_FILE_ARG]
+	my_file=Open_File(name_file,"rb")
+	exit_file=Open_File(os.getcwd()+"/"+name_file+"."+GROUP_NUMBER,"wb")
 	Line=my_file.read(Block_Size)
 	while Line:	
-		if len(Line)<Block_Size:
-			Line=Line[:-1]
-		Compress_file=Compress(Line)
+#		Line=Line.replace("\n",'')
+#		if len(Line)>0:
+		Compress_file=Compress(Line,exit_file)
 		Compress_file.run()
 		Line=my_file.read(Block_Size)
 	my_file.close()	
+	exit_file.close()
 
 except usage_error:
 	print """
