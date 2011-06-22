@@ -20,6 +20,9 @@ class Interval():
 		return Idx,Idx+2
 	def __Get_distance(self,total_val,length):
 		real_distance=length*(total_val/self.__total);
+#		print "Total_val: ",total_val
+#		print "total: ",self.__total
+#		print "real_distance: ",real_distance
 		if math.modf(real_distance)[0]< 0.5 :
 		    return math.floor(real_distance)
 		return math.ceil(real_distance)
@@ -39,20 +42,24 @@ class Interval():
 
 	def Emit(self,Val,Level_id):	
 		length=self.__extremes.Get_length()
-		print "length: ",length
+#		print "length: ",length
 		self.__total=0
 		if self.__extremes.Get_Top() == 0xff:
 			length+=1;
 		distance=self.__seek_val_in_appropiate_precision(length,Level_id,Val);
-		self.__extremes.update_bottom(distance)
+		if Val != self.__Levels.Get_First_in_Level(Level_id):
+			self.__extremes.update_bottom(distance)
 		if Val != ESC:
+#			print "Encuentro ",Val," en nivel ",Level_id
 			total_val=self.__Levels.Get_emited(Val)+1
+#			print "Hay ",total_val," valores ",Val," en nivel ",Level_id
+#			print "Hay ",self.__Levels.Get_emited(ESC)," valores ESC en nivel ",Level_id
 			distance=self.__Get_distance(total_val,length)
 			self.__extremes.update_top(distance)
 		self.__extremes.normalizate()
 		self.__Levels.Emit_Value(Val)
-		if Val != ESC:
-			print "Encuentro ",Val," en nivel: ",Level_id
+#		if Val != ESC:
+#			print "Encuentro ",Val," en nivel: ",Level_id
             
 	def Is_in_Level(self,Level_id,num):
 		return self.__Levels.Is_in_Level(Level_id,num)

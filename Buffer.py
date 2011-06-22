@@ -6,9 +6,9 @@ class Buffer():
 		self.__bits=[]
 	def __write(self):
 		bit_string="0b"+''.join(self.__bits)
-		print self.__bits
-		print self.__bits
-		print "Escribo 1 char ",chr(int(bit_string,2))
+#		print self.__bits
+#		print self.__bits
+#		print "Escribo 1 char ",chr(int(bit_string,2))
 		self.__fd.write(chr(int(bit_string,2)))
 		self.__bits=[]
 

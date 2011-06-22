@@ -42,7 +42,9 @@ class Binary():
 		for pos in range(self.__pos,other):
 			del self.__bin[pos]
 #		self.__bin.append("1")
+#		print "El numero queda: ",int(self)
 		self.add_value(other)
+#		print "Leugo de sumarle lo que corresponda, queda: ",int(self)
 		self.__pos=0
 #		self.__number=int("".join(self.bin),2)
 #		num=int(self.__number)<<other

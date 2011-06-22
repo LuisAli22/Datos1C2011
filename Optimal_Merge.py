@@ -1,7 +1,7 @@
 import os
 from FileManagement import* 
 
-CANT_VIAS = 4
+CANT_VIAS = 100
 POS_CANT_REG=0
 POS_FILE_PATH=1
 POS_FILE=2
@@ -22,11 +22,13 @@ class Merge(FileManagement):
 
 	def __Get_Minor_Part(self):
 		for i in range(CANT_VIAS-1):
+#			print self.Get_File_list()
 			if(len(self.Get_File_list())>0):
-				elem=find_min(self.Get_File_list())
+				elem=find_min_list(self.Get_File_list())
 				path_file=elem[POS_FILE_PATH]
 				Cant_Regs=elem[POS_VAL]
 				self.Get_File_list().remove(elem)
+#				print "Agrego a res: ",path_file
 				self.__res.append([Cant_Regs,path_file,Open_File(path_file, 'r')])
 			else:
 				break
@@ -37,7 +39,7 @@ class Merge(FileManagement):
 	def __send_to_exit_file(self,Data):
 		self.__count=len(Data)
 		while(len(Data)>0):
-			elem=find_min(Data)
+			elem=find_min_list(Data)
 			Data.remove(elem)
 			self.__Actual_Part.write(elem)
 		if (len(self.__res)==0):
@@ -48,6 +50,7 @@ class Merge(FileManagement):
 			self.__res.remove(elem)
 
 	def __Close_and_remove_file_from_disk(self,val,completed=[]):
+#		print "Elimino ",val[POS_FILE_PATH]
 		val[POS_FILE].close()
 		os.remove(val[POS_FILE_PATH])
 		completed.append(val)
@@ -55,9 +58,11 @@ class Merge(FileManagement):
 	def __Process_Entry_Files(self):
 		completed=[]
 		Data=[]
-		elem=find_min(self.__res)
+		elem=find_min_list(self.__res)
 		path_file=elem[POS_FILE_PATH]
+#		print "Porceso: ",path_file
 		reg_num=elem[POS_VAL]
+#	print "self.__res: ",self.__res
 		for val in self.__res:
 			Data+=val[POS_FILE].readlines(reg_num)
 			val[POS_VAL]-=reg_num

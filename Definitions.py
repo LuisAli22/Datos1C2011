@@ -20,12 +20,25 @@ def Open_File(filename,mode):
 	except IOError :
 		raise File_Error(filename)
 	return ret_val
-def find_min(List):
+def find_min_list(List):
+	print List
 	minor=List[0]
-	for i in range(1,len(List)):
-		if List[i]<minor:
-			minor=List[i]
+#	print "Menor inicial: ",minor
+	for elem in List[1:]:
+		if elem[0]<minor[0]:
+			minor=elem
+#	print "El menor es: ",minor
 	return minor
+def find_min(Dict):
+#	print "List: ",List 
+	pos=Dict.keys()[0]
+	minor=Dict[pos]
+	for i in Dict.keys()[1:]:
+#		print "List[",i,"]: ",List[i],"\tMenor: ",minor
+		if Dict[i]<minor:
+			minor=Dict[i]
+			pos=i
+	return pos
 def Get_extremeValues(Level_id):
 	return math.floor(math.pow(BASE,Level_id-1)),math.pow(BASE,Level_id)-1
 

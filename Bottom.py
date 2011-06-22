@@ -7,5 +7,5 @@ class Bottom(Binary):
 	
 	def add_value(self,other):
 		for pos in range(self.Get_pos(),other):
-			print "pos: ",pos
+#			print "pos: ",pos
 			self.append("0")

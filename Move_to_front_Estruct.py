@@ -16,17 +16,24 @@ class Move_to_front_Estructurate():
 		self.__New_Order[car_zero]=idx
 		
 	def __Get_idx(self,Car):
-		idx=self.__New_Order[Car] if Car in self.__New_Order else ord(Car)
+		idx=self.__New_Order[Car] if Car in self.__New_Order.keys() else ord(Car)
 		if Car not in self.__New_Order:
 			self.__swap_pos(Car,idx);
 		return idx
 	def run(self,path_file):
-		
-		for row in fileinput.input(path_file):
-			car=encode(int(row))
+		fd=Open_File(path_file,"r")
+		car=fd.read(1+len("\n"))
+#		print "Pulse una tecla..."
+		while car:
+#			print "Leo: ",car
+			if car !="\n":
+				car=car[:-1]#.rstrip('\n')
 			num_pos=self.__Get_idx(car);			
 			self.__Estructurado.run(num_pos)
+			car=fd.read(1+len("\n"))
 		if self.__Estructurado.All_data_stored()==False:
 			self.__Estructurado.Bit_padding()
 		self.__Matrix.Write_Init()
+		fd.close()
+#		x=input()
 		os.remove(path_file)

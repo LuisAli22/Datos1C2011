@@ -46,7 +46,7 @@ class Extreme_Interval():
 #		self.__bottom=int("".join(bottom_list))
 	def __Process_Underflow(self):
 		while self.__top.Is_Underflow(self.__bottom):
-			print "UNDERFLOW!!!!!!!"
+#			print "UNDERFLOW!!!!!!!"
 			self.__counter+=1;
 			self.__shift()
 	def __shift(self):
@@ -70,14 +70,10 @@ class Extreme_Interval():
 			for i in range(self.__counter):
 				self.__bits.append(chr(ord("0")+bit_complement))
 			self.__counter=0
+#			print "corro 1 lugar"
 			self.__shift()
-#			self.__shift(bit_bot)
-#			self.__bottom=(self.__bottom-0x80)*2
-#			self.__top=(self.__top-0x80)*2 +1;
-#			bit_bot=self.__bottom/base_one_MSB;
-#			bit_top=self.__top/base_one_MSB;
-			print "top: ",int(self.__top)
-			print "bottom: ",int(self.__bottom)
+#			print "top: ",int(self.__top)
+#			print "bottom: ",int(self.__bottom)
 
 	def Get_length(self):		
 		return int(self.__top)-int(self.__bottom)
@@ -89,15 +85,19 @@ class Extreme_Interval():
 		self.__bottom.Set_value(bottom)
 		self.__top.Set_value(top)
 	def update_bottom(self,value):
-		print "Antes... bottom: ",int(self.__bottom)
-		print value
+#		print "Antes... bottom: ",int(self.__bottom)
+#		print value
 		self.__bottom+=int(value)
-		print "Despues... bottom: ",int(self.__bottom)
+#		print "Despues... bottom: ",int(self.__bottom)
 	def update_top(self,my_distance):
+#		print "Antes... top: ",int(self.__top)
+#		print "Distancia: ",my_distance
+#		print "bottom + distancia: =",int(self.__bottom)+int(my_distance)
 		self.__top.Set_value(int(self.__bottom)+ int(my_distance))
+#		print "Despues... top: ",int(self.__top)
 	def normalizate(self):
-		print "top: ",int(self.__top)
-		print "bottom: ",int(self.__bottom)
+#		print "top: ",int(self.__top)
+#		print "bottom: ",int(self.__bottom)
 		self.__Process_Underflow();
 		self.__Store_Partial_result();
 	def All_data_stored(self):
